@@ -1,0 +1,60 @@
+{
+    "users": [{
+            "idUser": "12345",
+            "username": "Vince",
+            "win": 15,
+            "games": 15
+        },
+        {
+            "idUser": "12346",
+            "username": "Paul",
+            "win": 10,
+            "games": 11
+        },
+        {
+            "idUser": "12347",
+            "username": "Adrien",
+            "win": 1,
+            "games": 12
+        },
+        {
+            "idUser": "12348",
+            "username": "Jeremie",
+            "win": 54,
+            "games": 123
+        },
+        {
+            "idUser": "12349",
+            "username": "Manu",
+            "win": 23,
+            "games": 29
+        },
+        {
+            "idUser": "12310",
+            "username": "Ingrid",
+            "win": 15,
+            "games": 30
+        }
+    ],
+    "messages": [{
+            "username": "Vince",
+            "text": "Bonjour"
+        },
+        {
+            "username": "Paul",
+            "text": "Salut toi"
+        },
+        {
+            "username": "Vince",
+            "text": "Comment vas-tu ?"
+        },
+        {
+            "username": "Ingrid",
+            "text": "Yooo !"
+        },
+        {
+            "username": "Manu",
+            "text": "Heyyy !"
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+table.rankings {
+    border-collapse: collapse;
+    color: #fff;
+    margin: 0 2rem;
+    align-self: center;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+}
+
+.rankings caption {
+    font-size: 1.2rem;
+    background-color: #fff;
+    color: #394258;
+    padding: .6rem 0;
+}
+
+.rankings th,
+.rankings td {
+    padding: 1rem;
+    border-bottom: 1px solid #fff;
+}
+
+.rankings tr td {
+    background: none;
+    text-align: center;
+    font-weight: normal;
+}

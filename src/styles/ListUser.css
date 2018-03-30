@@ -1,0 +1,23 @@
+.listUser {
+    font-size: 1.2rem;
+    border-left: 2px solid #fff;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.listUser li {
+    padding: .5rem 4rem;
+    text-align: center;
+}
+
+.listUser li.titleList {
+    background-color: #fff;
+    color: #394258;
+    padding: .5rem 1rem;
+}
+
+.listUser li.me,
+.listUser li:hover {
+    background-color: #fff;
+    color: #394258;
+}

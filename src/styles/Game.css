@@ -1,0 +1,62 @@
+.game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.game h1 {
+    color: #fff;
+}
+
+.game .contentGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.game .players {
+    display: inline-flex;
+    margin: 1rem 0;
+}
+
+.game .players p {
+    border: 1px solid #EFEFEF;
+    padding: 0.8rem 1.2rem;
+    margin: 0 1rem;
+}
+
+.game .players p.turn {
+    color: #394258;
+    background-color: #fff;
+}
+
+.game .chat {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: auto;
+}
+
+.game .btn-leave {
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    padding: 0.6rem 1rem;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    transition: all .3s;
+}
+
+.game .btn-leave:hover {
+    border: 1px solid #fff;
+    background-color: #fff;
+    color: #394258;
+}
+
+.game .win .btn-leave {
+    position: static;
+}

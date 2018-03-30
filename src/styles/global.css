@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'OpenSans';
+    src: url('../fonts/OpenSans-Regular.ttf');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'OpenSans';
+    src: url('../fonts/OpenSans-SemiBold.ttf');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'OpenSans';
+    src: url('../fonts/OpenSans-Bold.ttf');
+    font-weight: bold;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    font-family: 'OpenSans', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+#root {
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+main {
+    position: relative;
+    height: 100%;
+    background-color: #394258;
+}
+
+.wrapperGame {
+    flex-direction: column;
+}
+
+input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+}
+
+input[type="submit"] {
+    cursor: pointer;
+}
+
+input[type=submit]:disabled {
+    color: #7F7F7F;
+}
+
+button {
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin: 2rem 0;
+}
