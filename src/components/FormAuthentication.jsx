@@ -51,6 +51,10 @@ class FormAuthentication extends React.Component {
         socket.on('error username', errorMessage => {
             this.setState({ error: errorMessage});
         });
+
+        socket.on('error password', errorMessage => {
+            this.setState({ error: errorMessage});
+        });
     }
 
     render() {

@@ -78,7 +78,7 @@ class ListRooms {
         return currentRoom;
     }
 
-    addMorpion(roomUser, morpion)  {
+    createMorpion(morpion, roomUser)  {
         this.list.map(room => {
             if (room.id === roomUser) {
                 room.game = morpion;

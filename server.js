@@ -6,13 +6,19 @@ const mysql = require('mysql');
 
 const config = require('./config');
 
+const {
+    cryptPassword,
+    comparePassword
+} = require('./encryptPassword');
+
+// Connect to database
 const BDD = mysql.createConnection({
-    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock',
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'tictactoe',
-    port: 3306
+    socketPath: config.database.socketPath,
+    host: config.database.host,
+    user: config.database.user,
+    password: config.database.password,
+    database: config.database.table,
+    port: config.database.port
 });
 
 /* Class imports */
@@ -30,7 +36,7 @@ app.get('/', (req, res) => {
 });
 
 
-let listUser, listRoom, listMsg, morpion;
+let listUser, listRoom, listMsg;
 
 
 io.on('connection', socket => {
@@ -65,6 +71,10 @@ io.on('connection', socket => {
     });
 
     socket.on('log out', () => {
+        logOut(socket);
+    });
+
+    socket.on('disconnect', () => {
         logOut(socket);
     });
 
@@ -124,10 +134,12 @@ const createAccount = (username, password) => {
         games: 0
     }
 
-    const query = `INSERT INTO user (idUser, username, password, win, game) 
-                    VALUES ('${idUser}', '${username}', '${password}', 0, 0)`
+    const newPassword = cryptPassword(password);
 
-    BDD.query(query, (error) => {
+    const query = `INSERT INTO user (idUser, username, password, win, game) 
+                    VALUES ('${idUser}', '${username}', '${newPassword}', 0, 0)`
+
+    BDD.query(query, error => {
         if (error) throw error;
         console.log("User saves in BDD");
     });
@@ -137,18 +149,29 @@ const createAccount = (username, password) => {
 
 const createOrLogAccount = (socket, username, password) => {
 
-    const query = `SELECT idUser, username, win, game FROM user 
-                    WHERE '${username}' = username AND '${password}' = password`;
+    const query = `SELECT idUser, username, password, win, game FROM user 
+                    WHERE '${username}' = username`;
 
     BDD.query(query, (error, result) => {
         if (error) throw error;
 
         let user;
 
-        if (result.length > 0) user = JSON.parse(JSON.stringify(result[0]));
+        if (result.length > 0) {
+            const isRightPassword = cryptPassword(password, result[0].password);
 
-        // if user doesn't exist in BDD
-        user = createAccount(username, password);
+            if (isRightPassword) {
+                // remove RowDataPacket (mysql syntax)
+                user = JSON.parse(JSON.stringify(result[0]));
+                delete user.password;
+            } else {
+                socket.emit('error password', 'Wrong password');
+                return;
+            }
+        } else if (result.length === 0) {
+            // if user doesn't exist in BDD
+            user = createAccount(username, password);
+        }
 
         initNewUserOnConnect(socket, user);
     });
@@ -211,7 +234,7 @@ const startGame = (socket, room) =>  {
         morpion.player1 = room.users[Math.floor(Math.random() * room.users.length)];
         morpion.player2 = room.users.find((user) => user !== morpion.player1);
 
-        listRoom.addMorpion(room.id, morpion);
+        listRoom.createMorpion(morpion, room.id);
         const currentPlayer = morpion.currentTurn === 1 ? morpion.player1.username : morpion.player2.username;
         io.sockets.in(room.id).emit('send board', morpion.board, currentPlayer);
     }
@@ -238,7 +261,8 @@ const sendMsg = (socket, msg, username) => {
 
     const newMsg = {
         username: username,
-        text: msgClean
+        text: msgClean,
+        date: new Date()
     }
 
     // if user is in room
