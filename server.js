@@ -22,9 +22,9 @@ const BDD = mysql.createConnection({
 });
 
 /* Class imports */
-const Game = require('./Game.js');
-const ListUsers = require('./ListUsers.js');
-const ListRooms = require('./ListRooms.js');
+const Game = require('./class/Game.js');
+const ListUsers = require('./class/ListUsers.js');
+const ListRooms = require('./class/ListRooms.js');
 
 /* Data */
 const data = require('./data.json');
@@ -35,9 +35,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-
 let listUser, listRoom, listMsg;
-
 
 io.on('connection', socket => {
 
@@ -86,6 +84,8 @@ http.listen(process.env.PORT || 3000, () => {
     // init all list for HOME
     listUser = new ListUsers();
     listRoom = new ListRooms();
+
+    // set some fake messages
     listMsg = data.messages;
     // listMsg = [];
 });
@@ -112,7 +112,7 @@ const isValidUsername = (socket, username) => {
 const createInvite = (socket, username) => {
     const idUser = randomId();
 
-    // create user
+    // model user
     const user = {
         idUser: idUser,
         username: username,
@@ -193,9 +193,14 @@ const findUserBddWithId = (idUser, socket) => {
 }
 
 const initNewUserOnConnect = (socket, user, isInvitedAccount) => {
+    // add user in list users server
     listUser.addUser(user);
+
+    // stock idUser in socket object
     socket.idUser = user.idUser;
     socket.emit('valid user', user.idUser, user, isInvitedAccount);
+
+    // update all data users in Home room
     sendDataHome(socket, listUser, listMsg);
 }
 
@@ -310,10 +315,7 @@ const logOut = (socket) => {
     socket.broadcast.emit('send list user', listUser.list);
 }
 
-const getUser = (socket, id) => {
-    findUserBddWithId(id, socket);
-}
-
 // Generate unique ID
 const randomId = () =>
     Math.random().toString(36).substr(2, 9);
+    
